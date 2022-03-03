@@ -12,8 +12,13 @@ import (
 	"github.com/afaferz/social-application/models/posts"
 )
 
-var postsArray []posts.Post = make([]posts.Post, 0)
-var index int = 1
+var postComment []posts.Comment = make([]posts.Comment, 0)
+var postsArray []posts.Post = []posts.Post{
+	{Id: 1, Username: "afaferz", Post: "A little post", Date: time.Now(), Comments: postComment},
+	{Id: 2, Username: "afaferz", Post: "A another little post", Date: time.Now(), Comments: postComment},
+}
+
+var index int = 3
 
 func AllPosts(wr http.ResponseWriter, req *http.Request) {
 	log.Println("/api/posts/ - GET")
