@@ -5,15 +5,15 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/afaferz/social-application/endpoints"
-	"github.com/afaferz/social-application/middleware"
+	"github.com/afaferz/social-application/middlewares"
+	"github.com/afaferz/social-application/routers"
 	"github.com/gorilla/mux"
 )
 
 func main() {
 	r := mux.NewRouter()
-	r.Use(middleware.ContentTypeMiddleware)
-	r = endpoints.AddRouterEndpoints(r)
+	r.Use(middlewares.ContentTypeMiddleware)
+	r = routers.NewRouter()
 	fs := http.FileServer(http.Dir("./dist"))
 	r.PathPrefix("/").Handler(fs)
 

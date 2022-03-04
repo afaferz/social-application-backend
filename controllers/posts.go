@@ -1,4 +1,4 @@
-package posts
+package controllers
 
 import (
 	"encoding/json"
@@ -9,13 +9,13 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/afaferz/social-application/models/posts"
+	"github.com/afaferz/social-application/models"
 )
 
-var postComment []posts.Comment = make([]posts.Comment, 0)
-var postsArray []posts.Post = []posts.Post{
-	{Id: 1, Username: "afaferz", Post: "A little post", Date: time.Now(), Comments: postComment},
-	{Id: 2, Username: "afaferz", Post: "A another little post", Date: time.Now(), Comments: postComment},
+// var postComment []models.Comment = make([]models.Comment, 0)
+var postsArray []models.Post = []models.Post{
+	// {Id: 1, Username: "afaferz", Post: "A little post", Date: time.Now(), Comments: postComment},
+	// {Id: 2, Username: "afaferz", Post: "A another little post", Date: time.Now(), Comments: postComment},
 }
 
 var index int = 3
@@ -27,7 +27,7 @@ func AllPosts(wr http.ResponseWriter, req *http.Request) {
 
 func AddPost(wr http.ResponseWriter, req *http.Request) {
 	log.Println("/api/posts/ - POST")
-	var actualPost posts.Post
+	var actualPost models.Post
 	err := json.NewDecoder(req.Body).Decode(&actualPost)
 	if err != nil {
 		http.Error(wr, err.Error(), http.StatusBadRequest)
@@ -37,7 +37,7 @@ func AddPost(wr http.ResponseWriter, req *http.Request) {
 	index++
 	actualPost.Date = time.Now()
 	if actualPost.Comments == nil {
-		actualPost.Comments = make([]posts.Comment, 0)
+		actualPost.Comments = make([]models.Comment, 0)
 	}
 	postsArray = append(postsArray, actualPost)
 	json.NewEncoder(wr).Encode(postsArray)
@@ -80,7 +80,7 @@ func AddComment(wr http.ResponseWriter, req *http.Request) {
 		http.Error(wr, "Cannot convert the id value to string", http.StatusBadRequest)
 		return
 	}
-	var actualComment posts.Comment
+	var actualComment models.Comment
 	err = json.NewDecoder(req.Body).Decode(&actualComment)
 	if err != nil {
 		http.Error(wr, err.Error(), http.StatusBadRequest)
